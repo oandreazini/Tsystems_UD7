@@ -9,48 +9,50 @@ public class Ej3App {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		//Creamos la BBDD de 10 articulos
+		//Creamos la hashtable de 10 articulos
 		Hashtable<String, Integer> articulos= new Hashtable <String, Integer>();
 		stock(articulos);
-
-		//Cramos un menu
+		/**
+		 *Cramos un menu, con un bucle while y la sentencia switch, el bucle nos permite 
+		 *tener la opción de salir, y el switch nos permite seleccionar la opción del menú
+		 **/
 		boolean salir = false;
 
 		while (!salir) {
 
 			String numero = JOptionPane.showInputDialog("Introduce: 1->Añadir producto 2->Añadir Cantidad"
-					+ " 3->Consultar producto 4->Cantidades totales 5->Salir" );
+					+ " 3->Consultar producto 4->Cantidades totales 5-> Eliminar productos 6->Salir" );
 			int num = Integer.parseInt(numero);
 
-			try {	
-				switch (num) {
-				case 1:
-					añadirProducto(articulos);
-					break;
-				case 2:
-					añadirCantidad(articulos);
-					break;
-				case 3:
-					consultarProducto(articulos);
-					break;
-				case 4:	
-					listarProductos(articulos);
-					break;
-				case 5:
-					salir = true;
-					break;
-				default:
-					JOptionPane.showMessageDialog(null, "Números entre 1 --> 5");
-				} 
-			}catch (InputMismatchException e) {
-				numero = JOptionPane.showInputDialog("Escribe un numero");
-				num = Integer.parseInt(numero);
-			}
+			switch (num) {
+			case 1:
+				añadirProducto(articulos);
+				break;
+			case 2:
+				añadirCantidad(articulos);
+				break;
+			case 3:
+				consultarProducto(articulos);
+				break;
+			case 4:	
+				listarProductos(articulos);
+				break;
+			case 5:
+				eliminarProductos(articulos);
+				break;
+			case 6:
+				salir = true;
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "Números entre 1 --> 6");
+			} 
 		}
 	}
 
+
 	public static Hashtable<String, Integer> stock(Hashtable<String, Integer> articulos) {
 
+		//Introducimos los 10 productos que tenemos en stock
 		articulos.put("samsung", 15);
 		articulos.put("iphone", 10);
 		articulos.put("sony", 60);
@@ -134,7 +136,24 @@ public class Ej3App {
 
 			int stock = articulos.get(p);
 
-			JOptionPane.showMessageDialog(null, "El articulo " +p+ ", tiene " +stock+ " de estoc" );
+			JOptionPane.showMessageDialog(null, "El articulo " +p+ ", tiene " +stock+ " de stock" );
+		}
+	}
+
+	public static void eliminarProductos(Hashtable<String, Integer> articulos) {
+
+		String producto = JOptionPane.showInputDialog(null, "Escribe el producte que quieres eliminar");
+		producto = producto.toLowerCase();
+
+		/**
+		 * Si el producto introducido existe, eliminaral el artículo y su estoc, si no nos muestra un
+		 * banner diciendo que no existe
+		 */
+		if(articulos.containsKey(producto)) {
+			articulos.remove(producto);
+			JOptionPane.showMessageDialog(null, "El " +producto+ ", se elimino del stock");
+		} else {
+			JOptionPane.showMessageDialog(null, "El " +producto+ ", no existe");
 		}
 	}
 }
